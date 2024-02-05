@@ -34,13 +34,15 @@ const userShema = new Schema({
         required:true
     },
     coverImage:{
-        type:String,
-        required:true
+        type:String
     },
     watchHistory:[{
         type:Schema.Types.ObjectId,
         ref:"Video"
     }],
+    refreshToken:{
+        type: String
+    }
 },{timestamps:true});
 
 userShema.plugin(mongooseAggregatePaginate);
