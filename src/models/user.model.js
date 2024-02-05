@@ -1,0 +1,77 @@
+import mongoose , {Schema} from "mongoose";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
+import  Jwt  from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
+const userShema = new Schema({
+    username:{
+        type:String,
+        required:true,
+        lowercase:true,
+        unique:true,
+        index:true,
+        trim:true
+    },
+    email:{
+        type:String,
+        required:true,
+        lowercase:true,
+        unique:true,
+        trim:true
+    },
+    fullname:{
+        type:String,
+        required:true,
+        index:true
+    },
+    password:{
+        type:String,
+        required:[true,"Password is required"],
+        trim:true
+    },
+    avatar:{
+        type:String,
+        required:true
+    },
+    coverImage:{
+        type:String,
+        required:true
+    },
+    watchHistory:[{
+        type:Schema.Types.ObjectId,
+        ref:"Video"
+    }],
+},{timestamps:true});
+
+userShema.plugin(mongooseAggregatePaginate);
+
+userShema.pre("save", async function(next){
+    if(!this.isModified("password")) return next();
+    this.password = bcrypt.hash(this.password,10);
+    next();
+});
+userShema.methods.isPasswordCorrect = function(password){
+    return bcrypt.compare(password,this.password);
+};
+userShema.methods.generateAccessToken = function(){
+    return Jwt.sign({
+        _id:this._id,
+        username:this.username,
+        email:this.email,
+        fullname:this.fullname
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+        expiresIn:process.env.ACCESS_TOKEN_EXPIRY
+    })
+}
+userShema.methods.generateRefreshToken = function(){
+    return Jwt.sign({
+        _id:this._id
+    },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+        expiresIn:process.env.REFRESH_TOKEN_EXPIRY
+    })
+}
+export const User = mongoose.model("User",userShema);
