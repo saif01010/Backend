@@ -45,7 +45,7 @@ const userShema = new Schema({
     }
 },{timestamps:true});
 
-//userShema.plugin(mongooseAggregatePaginate);
+userShema.plugin(mongooseAggregatePaginate);
 
 userShema.pre("save", async function(next){
     if(!this.isModified("password")) return next();
