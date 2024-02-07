@@ -20,7 +20,7 @@ const registerUser = asyncHandler(async(req,res,next)=>{
     // return res
     const {username,email,password,fullname} = req.body;
 
-    if([fullName, email, username, password,fullname].some((field) => field?.trim() === "")){
+    if([ email, username, password,fullname].some((field) => field?.trim() === "")){
         throw new ApiError(400,"All fields are required");
     };
 
@@ -32,8 +32,8 @@ const registerUser = asyncHandler(async(req,res,next)=>{
         throw new ApiError(400,"User already exists");
     };
 
-    const avatarLocalPath = await req.files?.avatar[0]?.path;
-    const coverLocalPath = await req.files?.images[0]?.path;
+    const avatarLocalPath = req.files?.avatar[0]?.path;
+    const coverLocalPath = req.files?.coverImage[0]?.path;
 
     if(!avatarLocalPath) 
     {
@@ -45,7 +45,7 @@ const registerUser = asyncHandler(async(req,res,next)=>{
   const coverImage = await uploadOnCloudinary(coverLocalPath);
 
    const user = await User.create({
-        username:username.lowercase(),
+        username:username.toLowerCase(),
         email,
         password,
        fullname,
@@ -53,18 +53,21 @@ const registerUser = asyncHandler(async(req,res,next)=>{
         coverImage: coverImage?.url||""
     });
 
-  const createdUser =   user.findById(User._id).select(
+  const createdUser =   User.findById(user._id).select(
         "-password -refreshToken"
     );
+    // const createdUser = await User.findById(user._id).select(
+    //     "-password -refreshToken"
+    // )
 
-    if(!createdUser){
-        throw new ApiError(500, "Something went wrong while creating user");
-    };
-
-    return res.staus(201).json(
-        new ApiResponse(200, "User Created Successfully")
-    );
-
+    if (!createdUser) {
+        throw new ApiError(500, "Something went wrong while registering the user")
+    }
+    
+    return res.status(201).json(
+        new ApiResponse(200, "User registered Successfully")
+    )
+    
 });
 
 export {registerUser};
