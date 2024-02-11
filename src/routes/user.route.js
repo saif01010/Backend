@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUser, loginUser } from "../controllors/user.controller.js";
+import { registerUser, loginUser,logoutUser } from "../controllors/user.controller.js";
 import {upload} from '../middelware/mutler.middelware.js';
 import {verifyJWT} from '../middelware/auth.middelware.js';
 
@@ -20,6 +20,6 @@ router.route("/register").post(
 
 router.route("/login").post(loginUser);
 
-router.route("/logout").post(verifyJWT,logoutUser);
+router.route("/logout").post(verifyJWT,logoutUser)
 
 export default router;
