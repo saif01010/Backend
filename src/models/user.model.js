@@ -65,7 +65,7 @@ userShema.methods.generateAccessToken = function(){
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
-        expiresIn:process.env.ACCESS_TOKEN_EXPIRY
+        expiresIn:process.env.ACCESS_TOKEN_EXPIRE
     })
 }
 userShema.methods.generateRefreshToken = function(){
@@ -74,7 +74,7 @@ userShema.methods.generateRefreshToken = function(){
     },
     process.env.REFRESH_TOKEN_SECRET,
     {
-        expiresIn:process.env.REFRESH_TOKEN_EXPIRY
+        expiresIn:process.env.REFRESH_TOKEN_EXPIRE
     })
 }
 export const User = mongoose.model("User",userShema);
