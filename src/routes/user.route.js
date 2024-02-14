@@ -3,7 +3,7 @@ import { registerUser, loginUser,
     logoutUser ,refreshTokenEndPoint,
     avatarUpdate,coverImageUpdate,
     changeCurrentPassword,updateUserInformation,
-    getCurrentUser} from "../controllors/user.controller.js";
+    getCurrentUser,getChannelProfile} from "../controllors/user.controller.js";
 import {upload} from '../middelware/mutler.middelware.js';
 import {verifyJWT} from '../middelware/auth.middelware.js';
 
@@ -31,4 +31,5 @@ router.route("/update-coverimage").post(verifyJWT,upload.single("coverImage"),co
 router.route("/update-information").post(verifyJWT,updateUserInformation)
 router.route("/current-user").get(verifyJWT,getCurrentUser);
 router.route("/update-password").post(verifyJWT,changeCurrentPassword);
+router.route("/c/:username").get(verifyJWT,getChannelProfile)
 export default router;

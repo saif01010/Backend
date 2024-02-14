@@ -264,8 +264,68 @@ const coverImageUpdate = asyncHandler(async(req,res)=>{
      .json(new ApiResponse(200,user,"cover Image Updated Successfully"));
  });
 
- const watchHistory = asyncHandler(async(req,res)=>{
-    
+ const getChannelProfile = asyncHandler(async(req,res)=>{
+        const {username} = req.params;
+        if(!username?.trim()){
+           throw new ApiError(400,"Username is invalid");
+        };
+       const channel = await User.aggregate([
+            {
+            $match:{
+                username:username
+            },
+        },
+        {
+            $lookup:{
+                from: "subscriptions",
+                localField: "_id",
+                foreignField: "channel",
+                as: "subscribers"
+            }
+        },
+        {
+            $lookup:{
+                from: "subscriptions",
+                localField: "_id",
+                foreignField: "subscriber",
+                as: "subscribedTo"
+            }
+        },
+        {
+            $addFields:{
+                subscribersCount:{
+                    $size:"$subscribers"
+                },
+                subscribedToCount:{
+                    $size:"$subscribedTo"
+                },
+                isSubscribed:{
+                    $cond:{
+                        if:{$in: [req.user?._id, "$subscribers.subscriber"]},
+                    then: true,
+                    else: false
+                    }
+                }
+            }
+        },
+        
+        {
+            $project:{
+                fullname:1,
+                username:1,
+                avatar:1,
+                coverImage:1,
+                subscribedToCount:1,
+                subscribersCount:1
+
+            }
+        }
+    ]);
+    if(!channel?.length){
+      throw  new ApiError(401,"channel does not exists")
+    };
+    return res.status(200)
+    .json(new ApiResponse(201,channel[0],"fetched User Profile Successfully"));
  });
 
 
@@ -273,4 +333,4 @@ export {registerUser,loginUser,
     logoutUser,refreshTokenEndPoint,
     changeCurrentPassword,getCurrentUser,
     updateUserInformation,avatarUpdate,
-    coverImageUpdate};
+    coverImageUpdate,getChannelProfile};
