@@ -5,10 +5,10 @@ import {uploadOnCloudinary} from '../utils/cloudinary.js';
 import {ApiResponse} from "../utils/ApiResponse.js";
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
+
 const unlinkFiles = asyncHandler(async(files)=>{
     fs.unlink(files)
-})
-
+});
 const generateAccessTokenAndRefreshToken = async(userId)=>{
     try {
         const user = await User.findById(userId);
@@ -262,6 +262,10 @@ const coverImageUpdate = asyncHandler(async(req,res)=>{
  
      return res.status(200)
      .json(new ApiResponse(200,user,"cover Image Updated Successfully"));
+ });
+
+ const watchHistory = asyncHandler(async(req,res)=>{
+    
  });
 
 
