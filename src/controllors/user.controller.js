@@ -7,9 +7,9 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import mongoose from 'mongoose';
 
-const unlinkFiles = asyncHandler(async(files)=>{
-    fs.unlink(files)
-});
+// const unlinkFiles = asyncHandler(async(files)=>{
+//     fs.unlink(files)
+// });
 const generateAccessTokenAndRefreshToken = async(userId)=>{
     try {
         const user = await User.findById(userId);
@@ -84,8 +84,8 @@ const registerUser = asyncHandler(async(req,res,next)=>{
     if (!createdUser) {
         throw new ApiError(500, "Something went wrong while registering the user")
     }
-    unlinkFiles(avatarLocalPath);
-    unlinkFiles(coverLocalPath);
+    // unlinkFiles(avatarLocalPath);
+    // unlinkFiles(coverLocalPath);
     return res.status(201).json(
         new ApiResponse(200, createdUser,"User registered Successfully")
     )
@@ -237,11 +237,12 @@ const avatarUpdate = asyncHandler(async(req,res)=>{
          new:true
     }).select("-password");
 
-    unlinkFiles(avatarLocalPath);
+    // unlinkFiles(avatarLocalPath);
 
     return res.status(200)
     .json(new ApiResponse(200,user,"Avatar Updated Successfully"));
 });
+
 const coverImageUpdate = asyncHandler(async(req,res)=>{
     const coverImageLocalPath = req.file?.path;
     if(!coverImageLocalPath){
@@ -259,10 +260,11 @@ const coverImageUpdate = asyncHandler(async(req,res)=>{
           new:true
      }).select("-password");
 
-    unlinkFiles(coverImageLocalPath);
+    // unlinkFiles(coverImageLocalPath);
  
      return res.status(200)
      .json(new ApiResponse(200,user,"cover Image Updated Successfully"));
+
  });
 
 const getWatchHistory = asyncHandler(async(req,res)=>{
