@@ -10,6 +10,9 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 // const unlinkFiles = asyncHandler(async(files)=>{
 //     fs.unlink(files)
 // });
+
+
+
 const uploadVideo = asyncHandler(async(req,res)=>{
     const {title,description} = req.body;
     if(!(title && description)){
@@ -60,9 +63,9 @@ const uploadVideo = asyncHandler(async(req,res)=>{
     }
     // unlinkFiles(thumbnailLocalPath);
    return res.status(201)
-   .json(200,video,"Video created successfully");
+   .json(new ApiResponse(201,video,"Video uploaded successfully"));
 
-})
+});
 
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params
@@ -74,7 +77,7 @@ const getVideoById = asyncHandler(async (req, res) => {
         throw new ApiError(404, "Video not found")
     }
     return res.status(200).json(video)
-})
+});
 
 const updateVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
@@ -94,7 +97,7 @@ const updateVideo = asyncHandler(async (req, res) => {
     }
     return res.status(200)
     .json(new ApiResponse(200,video,"Video updated successfully"))
-})
+});
 
 const updateThumbnail = asyncHandler(async (req, res) => {
     const { videoId } = req.params
@@ -110,8 +113,33 @@ const updateThumbnail = asyncHandler(async (req, res) => {
         throw new ApiError(500, "Error updating thumbnail")
     }
     return res.status(200).json(new ApiResponse(200,video,"Thumbnail updated successfully"))
-})
+});
+const deleteVideo = asyncHandler(async(req,res)=>{
+    const {videoId} = req.params;
+    if(!videoId){
+        throw new ApiError(400,"Please provide video id");
+    }
+    const video = await Video.findByIdAndDelete(videoId);
+    if(!video){
+        throw new ApiError(404,"Video not found");
+    }
+    return res.status(200).json(new ApiResponse(200,video,"Video deleted successfully"));
+});
 
+const togglePublishStatus = asyncHandler(async (req, res) => {
+    const { videoId } = req.params
+    const video = await Video.findById(videoId)
+    if (!video) {
+        throw new ApiError(404, "Video not found")
+    }
+    const updatedVideo = await Video.findByIdAndUpdate
+    (videoId, { isPublished: !video.isPublished }, { new: true })
+    if (!updatedVideo) {
+        throw new ApiError(500, "Error updating video")
+    }
+    return res.status(200).json(updatedVideo)
+});
 
 export {uploadVideo,getVideoById,
-    updateVideo,updateThumbnail};
+    updateVideo,updateThumbnail
+    ,deleteVideo,togglePublishStatus};

@@ -2,7 +2,7 @@ import {Router} from "express";
 import { upload } from "../middelware/mutler.middelware.js";
 import { verifyJWT } from "../middelware/auth.middelware.js";
 import { uploadVideo,getVideoById,
-    updateVideo,updateThumbnail } from "../controllors/video.controller.js";
+    updateVideo,updateThumbnail,deleteVideo,togglePublishStatus } from "../controllors/video.controller.js";
 
 const router = Router();
 
@@ -19,6 +19,7 @@ router.route("/uplaod").post(upload.fields([
     }
 ]),uploadVideo);
 router.route("/v/:videoId").patch(updateVideo)
-.get(getVideoById);
+.get(getVideoById).delete(deleteVideo);
 router.route("/thumbnail/:videoId").post(upload.single("thumbnail"),updateThumbnail);
+router.route("/toggle/publish/:videoId").patch(togglePublishStatus);
 export default router;
