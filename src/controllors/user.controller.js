@@ -4,8 +4,8 @@ import {User} from '../models/user.model.js';
 import {uploadOnCloudinary} from '../utils/cloudinary.js';
 import {ApiResponse} from "../utils/ApiResponse.js";
 import jwt from 'jsonwebtoken';
-import fs from 'fs';
-import mongoose from 'mongoose';
+import mongoose, { isValidObjectId } from 'mongoose';
+
 
 // const unlinkFiles = asyncHandler(async(files)=>{
 //     fs.unlink(files)
@@ -242,7 +242,6 @@ const avatarUpdate = asyncHandler(async(req,res)=>{
     return res.status(200)
     .json(new ApiResponse(200,user,"Avatar Updated Successfully"));
 });
-
 const coverImageUpdate = asyncHandler(async(req,res)=>{
     const coverImageLocalPath = req.file?.path;
     if(!coverImageLocalPath){
@@ -265,8 +264,7 @@ const coverImageUpdate = asyncHandler(async(req,res)=>{
      return res.status(200)
      .json(new ApiResponse(200,user,"cover Image Updated Successfully"));
 
- });
-
+});
 const getWatchHistory = asyncHandler(async(req,res)=>{
     const user = await User.aggregate([
         {
@@ -312,8 +310,7 @@ const getWatchHistory = asyncHandler(async(req,res)=>{
     return res.status(200)
     .json(new ApiResponse(200,user[0].watchHistory,"fetched watch history successfully"))
 });
-
- const getChannelProfile = asyncHandler(async(req,res)=>{
+const getChannelProfile = asyncHandler(async(req,res)=>{
         const {username} = req.params;
         if(!username?.trim()){
            throw new ApiError(400,"Username is invalid");
@@ -375,7 +372,7 @@ const getWatchHistory = asyncHandler(async(req,res)=>{
     };
     return res.status(200)
     .json(new ApiResponse(201,channel[0],"fetched User Profile Successfully"));
- });
+});
 
 
 export {registerUser,loginUser,
