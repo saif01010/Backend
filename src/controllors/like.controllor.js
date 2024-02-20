@@ -82,6 +82,42 @@ const toggleLikeTweet = asyncHandler(async(req,res)=>{
     return res.status(201).json(new ApiResponse(201,newLike,"Tweet liked successfully"));
 });
 
+const getAllLikedVideos = asyncHandler(async(req,res)=>{
+    const user = await User.findById(req.user._id);
+    if(!user){
+        throw new ApiError(404,"User not found");
+    };
+    const likes = await Like.aggregate([{
+        $match:{
+            user:user._id,
+        }
+    },
+    {
+        $lookup:{
+            from:"videos",
+            localField:"video",
+            foreignField:"_id",
+            as:"video"
+        }
+    },
+    
+    {
+        $addFields:{
+            likedVideoCount:{$size:"$video"}
+        }
+    },
+    {
+        $project:{
+            _id:0,
+            video:1,
+            likedVideoCount:1
+        }
+    }])
+    if(!likes.length){
+        throw new ApiError(404,"No liked videos found");
+    }
+    return res.status(200).json(likes);
+})
 
-
-export {toggleLikeVideo,toggleLikeComment,toggleLikeTweet};
+export {toggleLikeVideo,toggleLikeComment,
+    toggleLikeTweet,getAllLikedVideos};
