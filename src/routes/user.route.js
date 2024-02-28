@@ -4,9 +4,9 @@ import { registerUser, loginUser,
     avatarUpdate,coverImageUpdate,
     changeCurrentPassword,updateUserInformation,
     getCurrentUser,getChannelProfile,
-    getWatchHistory} from "../controllors/user.controller.js";
-import {upload} from '../middelware/mutler.middelware.js';
-import {verifyJWT} from '../middelware/auth.middelware.js';
+    getWatchHistory} from "../controllers/user.controller.js";
+import {upload} from '../middlewares/mutler.middleware.js';
+import {verifyJWT} from '../middlewares/auth.middleware.js';
 
 const router = Router();
 

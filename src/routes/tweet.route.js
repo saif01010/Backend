@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {createTweet,getAllTweets,
-    deleteTweet} from "../controllors/tweet.controllor.js";
-import {verifyJWT} from '../middelware/auth.middelware.js';
+    deleteTweet} from "../controllers/tweet.controller.js";
+import {verifyJWT} from '../middlewares/auth.middleware.js';
 
 const router = Router();
 

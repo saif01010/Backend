@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import {toggleLikeVideo,toggleLikeComment,
-    toggleLikeTweet,getAllLikedVideos} from '../controllors/like.controllor.js';
-import {verifyJWT} from '../middelware/auth.middelware.js';
+    toggleLikeTweet,getAllLikedVideos} from '../controllers/like.controller.js';
+import {verifyJWT} from '../middlewares/auth.middleware.js';
 
 const router = Router();
 

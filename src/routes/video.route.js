@@ -1,8 +1,8 @@
 import {Router} from "express";
-import { upload } from "../middelware/mutler.middelware.js";
-import { verifyJWT } from "../middelware/auth.middelware.js";
+import { upload } from "../middlewares/mutler.middleware.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { uploadVideo,getVideoById,
-    updateVideo,updateThumbnail,deleteVideo,togglePublishStatus } from "../controllors/video.controller.js";
+    updateVideo,updateThumbnail,deleteVideo,togglePublishStatus } from "../controllers/video.controller.js";
 
 const router = Router();
 
