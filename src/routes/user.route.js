@@ -21,7 +21,9 @@ router.route("/register").post(
             maxCount: 1
         }
     ])
-    ,registerUser);
+    ,registerUser).get(async(req,res,next)=>{
+        res.render("register")
+    });
 
 router.route("/login").post(loginUser);
 //secure route
