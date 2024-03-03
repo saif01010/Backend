@@ -25,7 +25,9 @@ router.route("/register").post(
         res.render("register")
     });
 
-router.route("/login").post(loginUser);
+router.route("/login").post(loginUser).get( async(req,res,)=>{
+    res.render("login")
+});
 //secure route
 router.route("/logout").post(verifyJWT,logoutUser);
 router.route("/refresh-token").post(refreshTokenEndPoint)

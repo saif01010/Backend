@@ -31,7 +31,8 @@ const userShema = new Schema({
     },
     avatar:{
         type:String,
-        required:true
+        require:true
+        
     },
     coverImage:{
         type:String
