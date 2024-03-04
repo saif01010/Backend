@@ -119,7 +119,7 @@ const loginUser = asyncHandler(async(req,res,next)=>{
         new ApiResponse(200,{
             user:loggedInUser,
             accessToken,
-            refreshToken
+           refreshToken
         
         },"User logged in successfully")
     )
@@ -199,13 +199,20 @@ const getCurrentUser = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200,req.user,"User Details Fetched Successfully"));
 });
 const updateUserInformation = asyncHandler(async(req,res)=>{
-    const {fullname}= req.body;
-    if(!fullname){
-        throw new ApiError(400,"Fullname is required");
+    const {fullname,username}= req.body;
+    if(!(fullname || username)){
+        throw new ApiError(400,"Fullname and username is required");
     };
+    const userExists = await User.findOne({username});
+    if(userExists){
+        
+        res.render("updateinformation")
+    
+    }
  const user =    await User.findByIdAndUpdate(req.user?._id,{
         $set:{
-            fullname
+            fullname,
+            username
         }
     },{
         new:true

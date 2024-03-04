@@ -29,7 +29,10 @@ import commentRouter from "./routes/comment.route.js";
 import tweetRouter from "./routes/tweet.route.js";
 import likeRouter from "./routes/like.route.js";
 import subscriptionRouter from "./routes/subscription.route.js";
+import homeRouter from "./routes/home.route.js";
 
+
+app.use("/",homeRouter);
 app.use("/api/v1/users",userRouter);
 app.use("/api/v1/videos",videoRouter);
 app.use("/api/v1/comments",commentRouter);
