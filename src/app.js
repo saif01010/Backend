@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
 
+
 const app = express();
 
 app.use(cors({
@@ -10,9 +11,11 @@ app.use(cors({
     credentials:true
 }));
 
+
+
 app.use(express.json({limit:"16kb"}));
 
-app.use(express.static("public"));
+//app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({limit:"16kb",extended:true}));
 
