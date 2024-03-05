@@ -159,7 +159,7 @@ form .user-details .input-box{
   <div class="container">
     <div class="title">Registration</div>
     <div class="content">
-      <form action="/api/v1/users/register" method="post">
+      <form action="/api/v1/users/register" method="post" enctype="multipart/form-data">
         <div class="user-details">
           <div class="input-box">
             <lable class="details" for="fullname">Full Name</lable>
@@ -190,6 +190,9 @@ form .user-details .input-box{
           <input type="submit" value="Register">
         </div>
       </form>
+      <div>already a user?
+        <a href="/api/v1/users/login">Login</a>
+      </div>
     </div>
   </div>
 
