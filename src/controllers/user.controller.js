@@ -40,6 +40,7 @@ const registerUser = asyncHandler(async(req,res,next)=>{
     });
 
     if(registeredUser){
+        
         throw new ApiError(400,"User already exists");
     };
 
