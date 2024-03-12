@@ -21,25 +21,25 @@ router.route("/register").post(
             maxCount: 1
         }
 ])
-  ,registerUser)//.get(async(req,res,next)=>{
-//     res.render("register")
-// });
+  ,registerUser).get(async(req,res,next)=>{
+    res.render("register")
+});
 
-router.route("/login").post(loginUser,)//.get( async(req,res,)=>{
-//     res.render("login")
-// });
+router.route("/login").post(loginUser,).get( async(req,res,)=>{
+    res.render("login")
+});
 //secure route
 router.route("/logout").get(verifyJWT,logoutUser);
 router.route("/refresh-token").post(refreshTokenEndPoint)
 router.route("/update-avatar").patch(verifyJWT,upload.single("avatar"),avatarUpdate);
 router.route("/update-coverimage").patch(verifyJWT,upload.single("coverImage"),coverImageUpdate);
- router.route("/update-information").patch(verifyJWT,updateUserInformation)//.get(async(req,res)=>{
-//     res.render("updateinformation")
-// });
+ router.route("/update-information").patch(verifyJWT,updateUserInformation).get(async(req,res)=>{
+    res.render("updateinformation")
+});
 router.route("/current-user").get(verifyJWT,getCurrentUser);
-router.route("/update-password").patch(verifyJWT,changeCurrentPassword)//.get(async(req,res)=>{
-//     res.render("resetpassword")
-// });
+router.route("/update-password").patch(verifyJWT,changeCurrentPassword).get(async(req,res)=>{
+    res.render("resetpassword")
+});
 router.route("/c/:username").get(verifyJWT,getChannelProfile)
 router.route("/history").get(verifyJWT,getWatchHistory)
 export default router;
