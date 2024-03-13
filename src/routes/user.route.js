@@ -8,6 +8,7 @@ import { registerUser, loginUser,
 import {upload} from '../middlewares/mutler.middleware.js';
 import {verifyJWT} from '../middlewares/auth.middleware.js';
 
+
 const router = Router();
 
 router.route("/register").post(
@@ -28,6 +29,8 @@ router.route("/register").post(
 router.route("/login").post(loginUser,).get( async(req,res,)=>{
     res.render("login")
 });
+
+
 //secure route
 router.route("/logout").get(verifyJWT,logoutUser);
 router.route("/refresh-token").post(refreshTokenEndPoint)
