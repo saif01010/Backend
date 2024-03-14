@@ -2,7 +2,7 @@ import {Video} from '../models/video.model.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import {ApiError} from '../utils/ApiError.js';
 import { uploadOnCloudinary } from '../utils/cloudinary.js';
-import {getVideoDurationInSeconds} from 'get-video-duration';
+// import {getVideoDurationInSeconds} from 'get-video-duration';
 import {User} from '../models/user.model.js';
 //import fs from 'fs';
 import mongoose from 'mongoose';
@@ -28,10 +28,11 @@ const uploadVideo = asyncHandler(async(req,res)=>{
     if(!videoUrl.url){
         throw new ApiError(500,"Error uploading video");
     };
-    const duration = await getVideoDurationInSeconds(videoUrl.url);
-    if(!(duration)){
-        throw new ApiError(500,"Error getting video duration");
-    }
+    // const duration = await getVideoDurationInSeconds(videoUrl.url);
+    // if(!(duration)){
+    //     throw new ApiError(500,"Error getting video duration");
+    // }
+    const duration = videoUrl.duration;
     const owner = await User.aggregate([{
         $match:{
             _id: new mongoose.Types.ObjectId(req.user._id)
