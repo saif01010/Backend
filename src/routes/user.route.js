@@ -31,6 +31,7 @@ router.route("/login").post(loginUser,).get( async(req,res,)=>{
 });
 
 
+
 //secure route
 router.route("/logout").get(verifyJWT,logoutUser);
 router.route("/refresh-token").post(refreshTokenEndPoint)
