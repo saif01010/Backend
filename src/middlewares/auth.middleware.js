@@ -6,11 +6,14 @@ import {User} from '../models/user.model.js';
 export const verifyJWT = asyncHandler(async (req, res, next) => {
        try {
         const token =  req.cookies?.accessToken || req.headers["Authorization"]?.replace("Bearer ","");
+        console.log("Token",token)
         if(!token){
           console.log("User should be logged in")
+          console.log("InsideToken",token)
           res.render("login");
          //throw new ApiError(400,"Unauthorized access");
         }
+        
         const decodedToken = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const user = await  User.findById(decodedToken?._id).select("-password");
         if(!user){
