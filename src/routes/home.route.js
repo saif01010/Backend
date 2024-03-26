@@ -1,11 +1,11 @@
-import { Router } from "express";
+// import { Router } from "express";
 
 
-const router = Router();
+// const router = Router();
 
-router.route("/").get(async(req,res)=>{
-    res.render("home")
-})
+// router.route("/").get(async(req,res)=>{
+//     res.render("home")
+// })
 
 
-export default router;
+// export default router;
