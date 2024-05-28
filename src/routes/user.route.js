@@ -4,7 +4,8 @@ import { registerUser, loginUser,
     avatarUpdate,coverImageUpdate,
     changeCurrentPassword,updateUserInformation,
     getCurrentUser,getChannelProfile,
-    getWatchHistory} from "../controllers/user.controller.js";
+    getWatchHistory,
+    getAllUsers} from "../controllers/user.controller.js";
 import {upload} from '../middlewares/mutler.middleware.js';
 import {verifyJWT} from '../middlewares/auth.middleware.js';
 
@@ -32,7 +33,7 @@ router.route("/login").post(loginUser,)
 //     res.render("login")
 // });
 
-
+router.route("/get-all-users").get(getAllUsers)
 
 //secure route
 router.route("/logout").get(verifyJWT,logoutUser);

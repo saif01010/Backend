@@ -376,6 +376,11 @@ const getChannelProfile = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(201,channel[0],"fetched User Profile Successfully"));
 });
 
+const getAllUsers = asyncHandler(async(req,res)=>{
+    const users = await User.find().select("-password -refreshToken -accessToken -createdAt -updatedAt");
+    return res.status(200)
+    .json({status:200,total_Users:users.length,data:users, message:"All Users fetched successfully",success:true})
+});
 
 
 export {registerUser,loginUser,
@@ -383,4 +388,4 @@ export {registerUser,loginUser,
     changeCurrentPassword,getCurrentUser,
     updateUserInformation,avatarUpdate,
     coverImageUpdate,getChannelProfile,
-    getWatchHistory};
+    getWatchHistory,getAllUsers};
