@@ -377,7 +377,7 @@ const getChannelProfile = asyncHandler(async(req,res)=>{
 });
 
 const getAllUsers = asyncHandler(async(req,res)=>{
-    const users = await User.find().select("-password -refreshToken -accessToken -createdAt -updatedAt");
+    const users = await User.find().select("-password -refreshToken -accessToken -createdAt -updatedAt -__v");
     return res.status(200)
     .json({status:200,total_Users:users.length,data:users, message:"All Users fetched successfully",success:true})
 });
